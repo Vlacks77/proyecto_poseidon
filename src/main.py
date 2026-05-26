@@ -1,17 +1,21 @@
-# src/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from src.modules.ventas.router import router as ventas_router
+from src.modules.inventario.router import router as inventario_router # NUEVA IMPORTACIÓN
 
-# Inicializamos la aplicación central de FastAPI
 app = FastAPI(
-    title="Proyecto Poseidón API",
-    description="Backend transaccional para el control de inventarios y ventas",
-    version="1.0.0"
+    title="PROYECTO POSEIDON - API CONTABLE",
+    description="Backend transaccional de alta precisión para el control de inventarios, suministros y ventas.",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
-# Configuración básica de CORS (para que tu frontend en Angular pueda conectarse sin bloqueos)
+# Configuración CORS para Angular (Puerto 4200)
 origins = [
-    "http://localhost:4200",  # Dirección estándar de desarrollo de Angular
+    "http://localhost:4200",
+    "https://localhost:4200",
+    "http://127.0.0.1:4200",
 ]
 
 app.add_middleware(
@@ -22,15 +26,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Endpoint de prueba (Ruta raíz) para verificar que el backend responda con éxito
-@app.get("/", tags=["Root"])
-def read_root():
-    return {
-        "status": "online",
-        "project": "PROYECTO-POSEIDON",
-        "message": "Servidor FastAPI inicializado correctamente"
-    }
-
-# Dentro de tu src/main.py central:
-from src.modules.ventas.router import router as ventas_router
+# REGISTRO DE ROUTERS VERSIONADOS
 app.include_router(ventas_router, prefix="/api/v1")
+app.include_router(inventario_router, prefix="/api/v1") # REGISTRO DEL NUEVO ROUTER
+
+@app.get("/", tags=["Root"])
+def comprobar_estado_servidor():
+    return {
+        "status": "ONLINE",
+        "sistema": "PROYECTO-POSEIDON",
+        "documentacion": "/docs"
+    }

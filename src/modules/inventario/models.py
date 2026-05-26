@@ -63,3 +63,26 @@ class HistorialStock(Base):
 
     stock = relationship("Stock", back_populates="historiales")
     venta = relationship("Venta")  # Relación cruzada al módulo de ventas
+    # Relación que SQLAlchemy necesita:
+    suministro = relationship("Suministro")
+class Suministro(Base):
+    """
+    Tabla maestra de ingresos al inventario por proveedores.
+    Obligatoria para resolver la llave foránea de HistorialStock.
+    """
+    __tablename__ = 'inv_suministro'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    proveedor = Column(String, nullable=True)
+    transportadora = Column(String, nullable=True)
+
+    # Auditoría
+    fec_cre = Column(DateTime, default=datetime.utcnow)
+    fec_mod = Column(DateTime, onupdate=datetime.utcnow)
+    usu_cre = Column(String(50))
+    usu_mod = Column(String(50))
+    api_estado = Column(String(20), default='ACTIVO')
+    api_transaccion = Column(String(20))
+    
+    # Opcional: relación inversa para navegar desde suministro a historiales
+    # historiales = relationship("HistorialStock", back_populates="suministro")

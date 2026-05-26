@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from fastapi import HTTPException
@@ -183,7 +185,7 @@ class VentasService:
                 db.add(nueva_factura)
 
             # EFECTUAR CAMBIOS DEFINITIVOS EN POSTGRES
-            db.commit() [cite: 357]
+            db.commit()
             
             return {
                 "id_venta": id_nueva_venta,
@@ -199,3 +201,21 @@ class VentasService:
                 status_code=500, 
                 detail=f"Fallo crítico transaccional en el Servidor: {str(e)}"
             )
+
+    @staticmethod
+    def buscar_clientes_por_criterio(db: Session, query: str) -> List[Cliente]:
+        """
+        Busca clientes por Razón Social o por coincidencia exacta/parcial de su NIT.
+        """
+        if not query or len(query.strip()) < 2:
+            return []
+
+        termino = f"%{query.strip()}%"
+        
+        # Filtramos si el nombre coincide o si el NIT transformado a texto coincide
+        from sqlalchemy import cast, String
+        return db.query(Cliente).filter(
+            (Cliente.razon_social.ilike(termino)) | 
+            (cast(Cliente.nit, String).like(termino))
+        ).all()
+        

@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 # 1. Define la cadena de conexión a tu PostgreSQL local
 # Cambia 'usuario', 'contraseña' y 'nombre_base_datos' por tus datos reales de Postgres/DBeaver
-DATABASE_URL = "postgresql://postgres:123@localhost:5432/postgres"
+DATABASE_URL = "postgresql://postgres:123@localhost:5432/scp"
 
 # 2. El Engine es el encargado de comunicarse directamente con el driver de la BD
 engine = create_engine(DATABASE_URL)

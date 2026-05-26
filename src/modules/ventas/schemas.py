@@ -92,3 +92,12 @@ class FinalizarVentaOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ClienteOut(BaseModel):
+    id: int
+    razon_social: str
+    celular: Optional[int]
+    nit: Optional[int]
+
+    class Config:
+        from_attributes = True

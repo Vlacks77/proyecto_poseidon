@@ -1,0 +1,21 @@
+{
+  "workbench.colorTheme": "Quiet Light",
+  "editor.fontSize": 14,
+  "editor.lineHeight": 22,
+  "editor.fontWeight": "500",
+  "workbench.colorCustomizations": {
+    "[Quiet Light]": {
+      "editor.background": "#DCDCDC",
+      "editor.foreground": "#1C1C1C",
+      "sideBar.background": "#CCCCCC",
+      "sideBar.foreground": "#222222",
+      "activityBar.background": "#B8B8B8",
+      "activityBar.foreground": "#111111",
+      "editorLineNumber.foreground": "#666666",
+      "editorLineNumber.activeForeground": "#000000",
+      "editor.lineHighlightBackground": "#CECECE",
+      "statusBar.background": "#969696",
+      "statusBar.foreground": "#FFFFFF"
+    }
+  }
+}

@@ -52,3 +52,15 @@ def finalizar_transaccion_venta(payload: FinalizarVentaIn, db: Session = Depends
     # Orquestamos la transacción en el servicio
     resultado_transaccion = VentasService.ejecutar_finalizar_venta(db=db, payload=payload)
     return resultado_transaccion
+
+from src.modules.ventas.schemas import ClienteOut # Asegúrate de importarlo arriba
+
+@router.get(
+    "/buscar-clientes", 
+    response_model=List[ClienteOut],
+    status_code=status.HTTP_200_OK,
+    summary="Buscador de clientes por Razón Social o NIT"
+)
+def buscar_clientes(query: str, db: Session = Depends(get_db)):
+    """Permite al modal de Angular autocompletar la información del cliente cliente."""
+    return VentasService.buscar_clientes_por_criterio(db=db, query=query)
